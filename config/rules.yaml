@@ -1,0 +1,66 @@
+sync_settings:
+  default_time_window_days: 14
+
+accounts:
+  - id: personal
+    email: you@gmail.com
+  - id: work
+    email: you@work.com
+
+rules:
+  - name: "Copy work meetings to personal calendar"
+    source:
+      account: work
+      calendar: primary
+      filters:
+        title_pattern: "^(Meeting|1:1|Standup).*"
+        time:
+          hour_range:
+            min: 9
+            max: 18
+          days_of_week: [1, 2, 3, 4, 5]
+        not_all_day: true
+        attendee_count:
+          min: 2
+        response_status: accepted
+    destination:
+      account: personal
+      calendar: "Work Meetings"
+      event:
+        title: "🏢 $1"
+        description: "Copied from work calendar\n\nOriginal: $0"
+        location: null
+        time_delta:
+          start_minutes: -15
+          end_minutes: 0
+        color_id: "9"
+        visibility: private
+        attendees: []
+        reminders:
+          use_default: false
+          overrides:
+            - method: popup
+              minutes: 10
+            - method: email
+              minutes: 60
+    behavior:
+      update_existing: true
+      delete_on_source_deletion: true
+      time_window_days: 14
+
+  - name: "Copy personal appointments to work (privacy mode)"
+    source:
+      account: personal
+      calendar: "Appointments"
+      filters:
+        title_pattern: "Doctor|Dentist|DMV|Appointment"
+        time:
+          days_of_week: [1, 2, 3, 4, 5]
+    destination:
+      account: work
+      calendar: primary
+      event:
+        title: "🏥 Personal - Busy"
+        description: null
+        location: null
+        visibility: private

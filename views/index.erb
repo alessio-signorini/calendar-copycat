@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calendar Copycat</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #3498db; }
+    h2 { color: #34495e; margin-top: 30px; }
+    .card {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 5px;
+    }
+    .button:hover { background: #2980b9; }
+    pre {
+      background: #282c34;
+      color: #abb2bf;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    ul { margin: 10px 0; }
+    li { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>📅 Calendar Copycat</h1>
+  
+  <p>A Ruby/Sinatra application that synchronizes Google Calendar events between multiple accounts based on configurable rules.</p>
+
+  <div class="card">
+    <h2>🚀 Quick Start</h2>
+    
+    <h3>1. Setup OAuth Credentials</h3>
+    <p>Set your Google OAuth credentials as environment variables:</p>
+    <pre>GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret</pre>
+    
+    <h3>2. Authenticate Accounts</h3>
+    <p>Click the links below to authenticate each Google account:</p>
+    <ul>
+      <li><a href="/auth/personal" class="button">Authenticate Personal Account</a></li>
+      <li><a href="/auth/work" class="button">Authenticate Work Account</a></li>
+    </ul>
+    
+    <h3>3. Configure Rules</h3>
+    <p>Edit <code>config/rules.yaml</code> to define your sync rules.</p>
+    
+    <h3>4. Test Sync</h3>
+    <form action="/sync" method="post" style="margin-top: 10px;">
+      <button type="submit" class="button">▶️ Run Sync Now</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>📊 Status</h2>
+    <p><a href="/status" class="button">View Status</a></p>
+  </div>
+
+  <div class="card">
+    <h2>📚 Documentation</h2>
+    <ul>
+      <li>See <code>docs/build.md</code> for complete specifications</li>
+      <li>See <code>README.md</code> for setup instructions</li>
+      <li>Configuration: <code>config/rules.yaml</code></li>
+    </ul>
+  </div>
+</body>
+</html>
