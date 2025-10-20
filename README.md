@@ -86,6 +86,7 @@ A Ruby/Sinatra application that runs on Fly.io to synchronize Google Calendar ev
 - `SYNC_INTERVAL_MINUTES` - Sync interval in minutes (default: 15)
 - `ENABLE_SCHEDULER` - Enable internal scheduler (default: false, use external cron)
 - `SESSION_SECRET` - Secret for session encryption (auto-generated if not set)
+- `SYNC_API_KEY` - API key for authenticating sync endpoints (recommended for production)
 
 ### Rules Configuration
 
@@ -293,7 +294,9 @@ All logs are written to stdout in the format:
 - Use Fly.io secrets for all sensitive data
 - Rotate tokens periodically
 - Extended properties are private (not visible to other users)
-- Consider adding authentication to `/sync` endpoint for production
+- Set `SYNC_API_KEY` environment variable to require authentication for `/sync` and `/cron/sync` endpoints
+- When `SYNC_API_KEY` is set, include it in requests as: `Authorization: Bearer YOUR_API_KEY`
+- Regex patterns from configuration are validated at initialization to prevent ReDoS attacks
 
 ## Troubleshooting
 

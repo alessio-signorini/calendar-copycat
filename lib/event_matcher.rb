@@ -3,7 +3,14 @@ require 'time'
 class EventMatcher
   def initialize(filters)
     @filters = filters || {}
-    @title_regex = Regexp.new(@filters['title_pattern']) if @filters['title_pattern']
+    if @filters['title_pattern']
+      begin
+        @title_regex = Regexp.new(@filters['title_pattern'], Regexp::FIXEDENCODING)
+      rescue RegexpError => e
+        puts "[WARN] [EventMatcher] Invalid regex pattern: #{e.message}"
+        @title_regex = nil
+      end
+    end
   end
   
   def matches?(event)

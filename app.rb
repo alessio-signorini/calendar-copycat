@@ -75,6 +75,14 @@ end
 post '/sync' do
   content_type :json
   
+  # Optional authentication via API key
+  if ENV['SYNC_API_KEY']
+    api_key = request.env['HTTP_AUTHORIZATION']&.sub(/^Bearer /, '')
+    unless api_key == ENV['SYNC_API_KEY']
+      halt 401, { status: 'error', error: 'Unauthorized' }.to_json
+    end
+  end
+  
   begin
     results = run_sync
     { status: 'success', results: results }.to_json
@@ -86,6 +94,14 @@ end
 
 # Cron sync endpoint (for Fly.io or external cron)
 post '/cron/sync' do
+  # Optional authentication via API key
+  if ENV['SYNC_API_KEY']
+    api_key = request.env['HTTP_AUTHORIZATION']&.sub(/^Bearer /, '')
+    unless api_key == ENV['SYNC_API_KEY']
+      halt 401, { status: 'error', error: 'Unauthorized' }.to_json
+    end
+  end
+  
   begin
     results = run_sync
     { status: 'success', results: results }.to_json
