@@ -54,6 +54,9 @@ A Ruby/Sinatra application that runs on Fly.io to synchronize Google Calendar ev
 
 ```
 calendar-copycat/
+├── .devcontainer/
+│   ├── devcontainer.json
+│   └── Dockerfile
 ├── Gemfile
 ├── Gemfile.lock
 ├── config.ru
@@ -586,6 +589,66 @@ gem 'rufus-scheduler'  # Optional: for internal scheduling
 gem 'yaml'  # YAML parsing (built-in)
 ```
 
+## Development Container (.devcontainer/)
+
+### .devcontainer/devcontainer.json
+
+Minimal DevContainer configuration for VS Code and GitHub Codespaces:
+
+```json
+{
+  "name": "Calendar Copycat Ruby Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rebornix.ruby",
+        "Shopify.ruby-lsp",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [8080],
+  "postCreateCommand": "bundle install",
+  "remoteUser": "vscode"
+}
+```
+
+### .devcontainer/Dockerfile
+
+```dockerfile
+FROM ruby:3.2
+
+# Install basic development tools
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -ms /bin/bash vscode
+
+# Set working directory
+WORKDIR /workspace
+
+# Switch to non-root user
+USER vscode
+```
+
+**Benefits:**
+- ✅ Works in VS Code locally with Dev Containers extension
+- ✅ Works in GitHub Codespaces out of the box
+- ✅ Includes Ruby LSP for better development experience
+- ✅ YAML extension for editing rules.yaml
+- ✅ Automatically runs `bundle install` on container creation
+- ✅ Port 8080 forwarded for testing Sinatra app
+
 ## Fly.io Configuration (fly.toml)
 
 ```toml
@@ -791,7 +854,7 @@ The application is complete when:
 
 Suggested build order:
 
-1. **Setup project structure** - Gemfile, directory structure
+1. **Setup project structure** - Gemfile, directory structure, .devcontainer
 2. **Google Auth module** - OAuth flow and token management
 3. **Rule Parser** - YAML loading and validation
 4. **Event Matcher** - Filtering logic (start with title, then time)
