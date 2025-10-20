@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OAuth Success - Calendar Copycat</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #2ecc71; }
+    h2 { color: #34495e; margin-top: 30px; }
+    pre {
+      background: #f4f4f4;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    .info {
+      background: #e8f5e9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>✅ Authentication Successful!</h1>
+  
+  <div class="info">
+    <p><strong>Account ID:</strong> <%= @account_id %></p>
+    <p><strong>Email:</strong> <%= @email %></p>
+  </div>
+
+  <h2>📝 Step 1: Add this secret to Fly.io</h2>
+  
+  <p>Run this command in your terminal:</p>
+  
+  <pre>fly secrets set ACCOUNT_<%= @account_id.upcase %>_REFRESH_TOKEN="<%= @refresh_token %>"</pre>
+
+  <h2>🚀 Step 2: Redeploy your app</h2>
+  
+  <p>After setting the secret, redeploy to activate the changes:</p>
+  
+  <pre>fly deploy</pre>
+
+  <h2>⚠️ Important</h2>
+  
+  <ul>
+    <li>Keep this refresh token secure - don't share it!</li>
+    <li>You can close this page after setting the secret</li>
+    <li>Repeat this process for each Google account you want to sync</li>
+  </ul>
+
+  <p><a href="/">← Back to home</a></p>
+</body>
+</html>

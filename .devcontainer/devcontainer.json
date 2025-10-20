@@ -1,0 +1,21 @@
+{
+  "name": "Calendar Copycat Ruby Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rebornix.ruby",
+        "Shopify.ruby-lsp",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [8080],
+  "postCreateCommand": "bundle install",
+  "remoteUser": "vscode"
+}
